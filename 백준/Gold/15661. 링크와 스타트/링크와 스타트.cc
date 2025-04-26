@@ -6,14 +6,9 @@
 
 using namespace std;
 
-int dy[4] = { 1,  0, -1,0 };
-int dx[4] = { 0, 1, 0, -1 };
 int n;
 vector<vector<int>>v;
-bool visit[24][24];
 int comp[24];
-int dfsIdx1 = 0;
-int dfsIdx2 = 0;
 int ans = 1e9;
 
 int asum = 0;
@@ -22,11 +17,11 @@ int bsum = 0;
 
 void go()
 {
-
 	for (int i = 1; i <=n; i++)
 	{
 		for (int j = 1; j <= n; j++)
 		{
+			// 같은 팀이면 합함
 			if (comp[i] == 1 && comp[j] == 1)
 			{
 				asum += v[i][j];
@@ -60,27 +55,23 @@ int main()
 		}
 	}
 
+	// n이 2개의 팀으로  나누어 지는 모든 경우의수 2^n
 	for (int i = 1; i < (1 << n); i++)
 	{
-		memset(visit, 0, sizeof(visit));
 		memset(comp, 0, sizeof(comp));
-		dfsIdx1 = -1;
-		dfsIdx2 = -1;
 		asum = 0;
 		bsum = 0;
 		for (int j = 0; j < n; j++)
 		{
+			
 			if (i & (1 << j))
-			{
-				dfsIdx1 = j + 1;
+			{// j 번째 수가 1번팀 추가 되는 경우
 				comp[j + 1] = 1;
 			}
-			else
-			{
-				dfsIdx2 = j + 1;
-			}
 		}
+		// 완전 탐색
 		go();
+		// 팀능력치의 차 최솟값 확인
 		ans = min(abs(asum - bsum), ans);
 	}
 	cout << ans;
