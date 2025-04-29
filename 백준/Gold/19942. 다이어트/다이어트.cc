@@ -75,7 +75,7 @@ int main()
 			}
 			else if (ans == cnt)
 			{
-				if (temp < sel) // 방향 반대
+				if (sel > temp) // 방향 반대
 				{
 					sel = temp; // clear() 안 해도 됨 (어차피 대입하면 덮어써짐)
 				}
