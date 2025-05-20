@@ -1,35 +1,21 @@
 #include<iostream>
 #include<vector>
 #include<algorithm>
-#include<cstring>
+
 using namespace std;
 
-int n, ans=0;
-int dp[1004][1004];
-vector<int>v;
-int go(int x, int num)
-{
-	
-	if (x == n)
-	{
-		return 0;
-	}
 
-	int& ret = dp[x][num];
-	if (ret != - 1)
-	{
-		return ret;
-	}
-	ret = go(x + 1, num);
-	if (v[x] > num)
-	{
-		ret = max( ret, go(x + 1, v[x]) + 1);
-	}
-	return ret;
-	
-}
+int n, ret = 0;
+int dp[1004];
+vector<int>v;
+
+
 int main()
 {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
 	cin >> n;
 	for (int i = 0; i < n; i++)
 	{
@@ -37,7 +23,21 @@ int main()
 		cin >> a;
 		v.push_back(a);
 	}
-	memset(dp, -1, sizeof(dp));
-	cout << go(0, 0);
+
+	for (int i = 0; i < n; i++)
+	{
+		dp[i] = 1;
+		for (int j = 0; j < i; j++)
+		{
+			if (v[i] > v[j])
+			{
+				dp[i] = max(dp[i], dp[j] + 1);
+			}
+		}
+		ret = max(dp[i], ret);
+
+	}
+	cout << ret;
+
 	return 0;
 }
