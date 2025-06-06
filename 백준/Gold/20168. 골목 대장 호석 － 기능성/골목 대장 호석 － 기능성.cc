@@ -13,38 +13,43 @@ int ret = 1e9;
 
 
 bool visit[14];
-void dijkstra(int start)
-{
-	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>pq;
-	pq.push({ 0, start });
-	dist[start] = 0;
-	while (!pq.empty())
-	{
-		int cost = pq.top().first;
-		int node = pq.top().second;
-		pq.pop();
-
-		if (dist[node] < cost)
-		{
-			continue;
-		}
-		for (auto i : v[node])
-		{
-			int nextnode = i.first;
-			int nextcost = i.second + cost;
-			if (dist[nextnode] > nextcost)
-			{
-				p[nextnode] = node;
-				dist[nextnode] = nextcost;
-				pq.push({ nextcost, nextnode });
-			}
-		}
-	}
-}
+//void dijkstra(int start)
+//{
+//	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>pq;
+//	pq.push({ 0, start });
+//	dist[start] = 0;
+//	while (!pq.empty())
+//	{
+//		int cost = pq.top().first;
+//		int node = pq.top().second;
+//		pq.pop();
+//
+//		if (dist[node] < cost)
+//		{
+//			continue;
+//		}
+//		for (auto i : v[node])
+//		{
+//			int nextnode = i.first;
+//			int nextcost = i.second + cost;
+//			if (dist[nextnode] > nextcost)
+//			{
+//				p[nextnode] = node;
+//				dist[nextnode] = nextcost;
+//				pq.push({ nextcost, nextnode });
+//			}
+//		}
+//	}
+//}
 
 void dfs(int x, int sum, int cnt)
 {
 	//cout << x << " ";
+	if (sum > C)
+	{
+		return;
+	}
+
 	if (x == B)
 	{
 		if (sum <= C)
@@ -52,14 +57,16 @@ void dfs(int x, int sum, int cnt)
 			ret = min(cnt, ret);
 		}
 	}
-	visit[x] = 1;
+	//visit[x] = 1;
 	for (auto i : v[x])
 	{
 		if (visit[i.first])
 		{
 			continue;
 		}
-		dfs(i.first, sum + i.second, cnt = max(cnt, i.second));
+		int newcnt = max(cnt, i.second);
+		visit[i.first] = 1;
+		dfs(i.first, sum + i.second, newcnt);
 		visit[i.first] = 0;
 	}
 }
@@ -94,7 +101,7 @@ int main()
 		v[b].push_back({ a, c });
 	}
 	dfs(A, 0, 0);
-	fill(dist, dist + n+1, 1e9);
+	//fill(dist, dist + n+1, 1e9);
 	//dijkstra(A);
 	//if (dist[B] > C)
 	//{
