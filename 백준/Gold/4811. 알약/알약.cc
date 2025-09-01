@@ -52,7 +52,8 @@ int main()
 		{
 			break;
 		}
-		memset(dp, -1, sizeof(dp));
+		fill(&dp[0][0], &dp[n + 1][n + 1], -1);
+		//memset(dp, -1, sizeof(dp));
 		cout << go(n - 1, 1) <<"\n";
 	}
 	
